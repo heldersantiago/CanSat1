@@ -77,6 +77,8 @@
             guna2ControlBox2 = new Guna.UI2.WinForms.Guna2ControlBox();
             guna2ControlBox1 = new Guna.UI2.WinForms.Guna2ControlBox();
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            lbName = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            lbEmail = new Guna.UI2.WinForms.Guna2HtmlLabel();
             tabMain.SuspendLayout();
             tabConnection.SuspendLayout();
             tabVisualizeDataSensors.SuspendLayout();
@@ -84,6 +86,7 @@
             guna2GradientPanel4.SuspendLayout();
             guna2GradientPanel2.SuspendLayout();
             guna2GradientPanel1.SuspendLayout();
+            tbProfile.SuspendLayout();
             guna2Panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -148,9 +151,9 @@
             lbUserLoggegIn.ForeColor = Color.DarkBlue;
             lbUserLoggegIn.Location = new Point(17, 6);
             lbUserLoggegIn.Name = "lbUserLoggegIn";
-            lbUserLoggegIn.Size = new Size(139, 39);
+            lbUserLoggegIn.Size = new Size(121, 39);
             lbUserLoggegIn.TabIndex = 4;
-            lbUserLoggegIn.Text = "Olá, Helder";
+            lbUserLoggegIn.Text = "Hi, There!";
             // 
             // btnLogout
             // 
@@ -396,6 +399,8 @@
             // 
             // tbProfile
             // 
+            tbProfile.Controls.Add(lbEmail);
+            tbProfile.Controls.Add(lbName);
             tbProfile.ForeColor = Color.White;
             tbProfile.Location = new Point(244, 4);
             tbProfile.Name = "tbProfile";
@@ -457,6 +462,28 @@
             guna2HtmlLabel1.TabIndex = 0;
             guna2HtmlLabel1.Text = "CanSat - Estaçao Principal";
             // 
+            // lbName
+            // 
+            lbName.BackColor = Color.Transparent;
+            lbName.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold);
+            lbName.ForeColor = Color.DarkBlue;
+            lbName.Location = new Point(182, 173);
+            lbName.Name = "lbName";
+            lbName.Size = new Size(123, 39);
+            lbName.TabIndex = 5;
+            lbName.Text = "username";
+            // 
+            // lbEmail
+            // 
+            lbEmail.BackColor = Color.Transparent;
+            lbEmail.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Bold);
+            lbEmail.ForeColor = Color.DarkBlue;
+            lbEmail.Location = new Point(182, 295);
+            lbEmail.Name = "lbEmail";
+            lbEmail.Size = new Size(121, 39);
+            lbEmail.TabIndex = 6;
+            lbEmail.Text = "useremail";
+            // 
             // main
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -481,6 +508,8 @@
             guna2GradientPanel2.PerformLayout();
             guna2GradientPanel1.ResumeLayout(false);
             guna2GradientPanel1.PerformLayout();
+            tbProfile.ResumeLayout(false);
+            tbProfile.PerformLayout();
             guna2Panel1.ResumeLayout(false);
             guna2Panel1.PerformLayout();
             ResumeLayout(false);
@@ -512,5 +541,7 @@
         private Guna.UI2.WinForms.Guna2Button btnLogout;
         private Guna.UI2.WinForms.Guna2HtmlLabel lbUserLoggegIn;
         private TabPage tbProfile;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lbEmail;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lbName;
     }
 }

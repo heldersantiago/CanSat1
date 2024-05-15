@@ -35,7 +35,7 @@ namespace CanSat1.Services
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            string data = serialPort.ReadExisting();
+            string data = serialPort.ReadLine();
             DataReceived?.Invoke(data);
         }
 
