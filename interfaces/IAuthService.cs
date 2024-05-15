@@ -12,6 +12,6 @@ namespace CanSat1.interfaces
         Task<bool> LoginAsync(string email, string password);
         Task<bool> RegisterAsync(User user);
         Task DestroySessionAsync();
-        Task<(string Name, string Email)> GetUserFromSessionAsync();
+        Task<User> GetUserFromSessionAsync();
     }
 }

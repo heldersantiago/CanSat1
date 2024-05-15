@@ -35,5 +35,10 @@ namespace CanSat1.controllers
 
             return await _authService.LoginAsync(email, password);
         }
+
+        public async void logout()
+        {
+            await _authService.DestroySessionAsync();
+        }
     }
 }

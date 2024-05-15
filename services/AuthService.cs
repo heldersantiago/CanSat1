@@ -128,12 +128,12 @@ namespace CanSat1.services
             }
         }
 
-        public async Task<(string Name, string Email)> GetUserFromSessionAsync()
+        public async Task<User?> GetUserFromSessionAsync()
         {
             try
             {
                 using var connection = await _databaseService.OpenConnectionAsync();
-                if (connection == null) return (null, null);
+                if (connection == null) return null;
 
                 var query = "SELECT user_name, user_email FROM sessions";
                 using var cmd = new MySqlCommand(query, connection);
@@ -141,17 +141,20 @@ namespace CanSat1.services
                 using var reader = await cmd.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
                 {
-                    var name = reader.GetString("user_name");
-                    var email = reader.GetString("user_email");
-                    return (name, email);
+                   var name = reader.GetString("user_name");
+                   var email = reader.GetString("user_email");
+
+                   var user = new User(name,email,"");
+
+                    return user;
                 }
 
-                return (null, null);
+                return null;
             }
             catch
             {
                 // Log the exception (not shown here)
-                return (null, null);
+                return null;
             }
         }
     }
