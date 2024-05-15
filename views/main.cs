@@ -61,6 +61,8 @@ namespace CanSat1.views
             loraService.DataReceived += LoraService_DataReceived;
 
             lbUserLoggegIn.Text = $"Olá, {currentUser.Name}";
+            lbName.Text = currentUser.Name;
+            lbEmail.Text = currentUser.Email;
 
         }
 
