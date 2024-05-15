@@ -66,5 +66,16 @@ namespace CanSat1.Utils
         {
             MessageDialog.Show(message, MessageDialogStyle.Dark);
         }
+
+        public static void HandleBtnOnLoading(Guna2Button btn, string text, bool enable)
+        {
+            btn.Text = text;
+            btn.Enabled = enable;
+        }
+        public static void HandleBtnOnLoading(Guna2GradientButton btn, string text, bool enable)
+        {
+            btn.Text = text;
+            btn.Enabled = enable;
+        }
     }
 }

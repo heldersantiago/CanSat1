@@ -151,11 +151,11 @@
             // btnLogin
             // 
             btnLogin.CustomizableEdges = customizableEdges1;
-            btnLogin.DisabledState.BorderColor = Color.DarkGray;
-            btnLogin.DisabledState.CustomBorderColor = Color.DarkGray;
-            btnLogin.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            btnLogin.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
-            btnLogin.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnLogin.DisabledState.BorderColor = Color.DarkBlue;
+            btnLogin.DisabledState.CustomBorderColor = Color.DarkBlue;
+            btnLogin.DisabledState.FillColor = Color.DarkBlue;
+            btnLogin.DisabledState.FillColor2 = Color.DarkBlue;
+            btnLogin.DisabledState.ForeColor = Color.White;
             btnLogin.FillColor = Color.Purple;
             btnLogin.FillColor2 = Color.DarkBlue;
             btnLogin.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
@@ -180,7 +180,7 @@
             guna2HtmlLabel2.TabIndex = 4;
             guna2HtmlLabel2.Text = "Faça Login Aqui";
             // 
-            // login
+            // Login
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -191,9 +191,10 @@
             Controls.Add(tbLoginEmail);
             Controls.Add(guna2GradientPanel1);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "login";
+            Name = "Login";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "login";
+            Load += Login_Load;
             guna2GradientPanel1.ResumeLayout(false);
             guna2GradientPanel1.PerformLayout();
             ResumeLayout(false);

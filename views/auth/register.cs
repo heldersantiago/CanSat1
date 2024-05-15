@@ -32,22 +32,27 @@ namespace CanSat1.views.auth
             string email = tbRegisterEmail.Text.Trim();
             string password1 = tbRegisterPassword1.Text.Trim();
             string password2 = tbRegisterPassword2.Text.Trim();
+            _Utils.HandleBtnOnLoading(btnRegister, "Cadastrando...", false);
 
             try
             {
                 if (await registerController.RegisterAsync(name,email, password1, password2))
                 {
-                    main _main = new main();
+                    Login _login = new();
                     this.Hide();
-                    _main.Show();
+                    _login.Show();
+                    _Utils.HandleBtnOnLoading(btnRegister, "Cadastrar-se", true);
+
                 }
                 else
                 {
+                    _Utils.HandleBtnOnLoading(btnRegister, "Cadastrar-se", true);
                     MessageDialog.Show("Já existe um usuário com este email", MessageDialogStyle.Dark);
                 }
             }
             catch (ArgumentException ex)
             {
+                _Utils.HandleBtnOnLoading(btnRegister, "Cadastrar-se", true);
                 MessageDialog.Show(ex.Message, MessageDialogStyle.Dark);
             }
         }
@@ -58,6 +63,5 @@ namespace CanSat1.views.auth
             this.Hide();
             _login.Show();
         }
-
     }
 }

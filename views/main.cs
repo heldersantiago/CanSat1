@@ -15,14 +15,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NexusUtils.BlynkIntegration;
+using CanSat1.services;
+using CanSat1.views.auth;
 
 namespace CanSat1.views
 {
     public partial class main : Form
     {
         private LoraService loraService;
-
         private BlynkService blynkService;
+        private AuthService authService;
+        private User currentUser;
 
         private readonly string token = "Z7eW3eBCG1ayF8LkF1lozuPX2W-OQr_-";
 
@@ -47,13 +50,17 @@ namespace CanSat1.views
             loraService.Dispose();
         }
 
-        private void initializeServices()
+        private async void initializeServices()
         {
             loraService = new LoraService();
             blynkService = new BlynkService(token);
+            var databaseService = new DatabaseService();
+            authService = new(databaseService);
 
-            //
+            currentUser = await authService.GetUserFromSessionAsync();
             loraService.DataReceived += LoraService_DataReceived;
+
+            lbUserLoggegIn.Text = $"Olá, {currentUser.Name}";
 
         }
 
@@ -123,6 +130,19 @@ namespace CanSat1.views
             }
         }
 
-       
+        private async void btnLogout_Click(object sender, EventArgs e)
+        {
+            _Utils.HandleBtnOnLoading(btnLogout, "Terminado a sessão...", false);
+            if (loraService.IsConnected)
+            {
+                 _Utils.HandleBtnOnLoading(btnLogout, "Terminar sessão", true);
+                _Utils.ShowConnectionErrorMessage("Desconecta-se primeiro!");
+                return;
+            }
+            await authService.DestroySessionAsync();
+            Login _login = new();
+            this.Hide();
+            _login.Show();
+        }
     }
 }

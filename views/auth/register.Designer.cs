@@ -155,11 +155,11 @@
             // btnRegister
             // 
             btnRegister.CustomizableEdges = customizableEdges5;
-            btnRegister.DisabledState.BorderColor = Color.DarkGray;
-            btnRegister.DisabledState.CustomBorderColor = Color.DarkGray;
-            btnRegister.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            btnRegister.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
-            btnRegister.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnRegister.DisabledState.BorderColor = Color.DarkBlue;
+            btnRegister.DisabledState.CustomBorderColor = Color.DarkBlue;
+            btnRegister.DisabledState.FillColor = Color.DarkBlue;
+            btnRegister.DisabledState.FillColor2 = Color.DarkBlue;
+            btnRegister.DisabledState.ForeColor = Color.White;
             btnRegister.FillColor = Color.Purple;
             btnRegister.FillColor2 = Color.DarkBlue;
             btnRegister.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic);
@@ -226,7 +226,7 @@
             tbRegisterName.Size = new Size(476, 60);
             tbRegisterName.TabIndex = 8;
             // 
-            // register
+            // Register
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -239,7 +239,7 @@
             Controls.Add(tbRegisterEmail);
             Controls.Add(guna2GradientPanel1);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "register";
+            Name = "Register";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "register";
             guna2GradientPanel1.ResumeLayout(false);
