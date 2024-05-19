@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace CanSat1.services
 {
-    public class DatabaseService:IDatabaseService
+    public class DatabaseService:IDatabaseService 
     {
         private readonly string _connectionString;
         public DatabaseService(string connectionString = $"Server=localhost;Database=lora_project;User ID=root;Password=heldersantiago273@;")

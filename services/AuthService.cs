@@ -68,10 +68,11 @@ namespace CanSat1.services
                 checkUserCmd.Parameters.AddWithValue("@Email", user.Email);
 
                 var userCount = (long)await checkUserCmd.ExecuteScalarAsync();
-                if (userCount > 0) {
+                if (userCount > 0)
+                 {
                     Debug.WriteLine(" Email com este user ja existe");
                     return false;
-                      }
+                 }
 
                 var insertUserQuery = "INSERT INTO users (name, email, password) VALUES (@Name, @Email, @Password)";
                 using var insertUserCmd = new MySqlCommand(insertUserQuery, connection);

@@ -77,5 +77,9 @@ namespace CanSat1.Utils
             btn.Text = text;
             btn.Enabled = enable;
         }
+
+        public static void UpdateSinalizerPicture(Guna2CirclePictureBox pictureBox, bool detected) { 
+            pictureBox.Image = detected ? CanSat1.Properties.Resources.led_off : CanSat1.Properties.Resources.led_off_black;
+        }
     }
 }

@@ -2,10 +2,9 @@
 using System;
 using System.IO.Ports;
 
-
 namespace CanSat1.Services
 {
-    internal class LoraService : ILoraService
+    public class LoraService : ILoraService
     {
         private  SerialPort serialPort;
 
