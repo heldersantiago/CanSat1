@@ -46,19 +46,21 @@ namespace CanSat1.Utils
         }
 
 
-        public static void UpdateUIOnConnection(Guna2Button btn, bool isConnected, Guna2TabControl tabControl)
+        public static void UpdateUIOnConnection(Guna2Button btn, bool isConnected, Guna2TabControl tabControl, Guna2CirclePictureBox pictureBox)
         {
             if (isConnected)
             {
                 btn.Text = "Fechar Porta";
                 btn.FillColor = Color.DarkRed;
                 tabControl.SelectedIndex = 1;
+                pictureBox.Image = CanSat1.Properties.Resources.led_on;
             }
             else
             {
                 btn.Text = "Abrir Porta";
-                btn.FillColor = Color.DarkBlue;
+                btn.FillColor = Color.Black;
                 tabControl.SelectedIndex = 0;
+                pictureBox.Image = CanSat1.Properties.Resources.led_off_black;
             }
         }
 

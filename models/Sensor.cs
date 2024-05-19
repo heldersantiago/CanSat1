@@ -10,7 +10,7 @@ namespace CanSat1.models
     {
         public string? Temperature { get; set; }
         public string? Humidity { get; set; }
-        public string? Obstacle { get; set; }
+        public string? Gas { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
 }

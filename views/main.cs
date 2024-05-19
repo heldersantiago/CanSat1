@@ -25,7 +25,7 @@ namespace CanSat1.views
         private Timer storeDataTimer;
         private Sensor sensorBuffer;
 
-        private readonly string token = "HRbOKqSm3nAoVR9iox2Pn3D8utIALof4";
+        private readonly string token = "4d7i4gp7PosP_EI48W2BqYXyC7IlbGV4";
 
         public main()
         {
@@ -64,9 +64,9 @@ namespace CanSat1.views
 
         private async void StoreSensorData(Sensor sensorBuffer)
         {
-            if(!(string.IsNullOrEmpty(sensorBuffer.Temperature) && string.IsNullOrEmpty(sensorBuffer.Humidity) && string.IsNullOrEmpty(sensorBuffer.Obstacle)))
+            if(!(string.IsNullOrEmpty(sensorBuffer.Temperature) && string.IsNullOrEmpty(sensorBuffer.Humidity) && string.IsNullOrEmpty(sensorBuffer.Gas)))
             {
-                await dataService.StoreStatusAsync(sensorBuffer.Temperature, sensorBuffer.Humidity, sensorBuffer.Obstacle, DateTime.Now);
+                await dataService.StoreStatusAsync(sensorBuffer.Temperature, sensorBuffer.Humidity, sensorBuffer.Gas, DateTime.Now);
             }
             _ = this.Invoke((MethodInvoker)async delegate
             {
@@ -96,9 +96,7 @@ namespace CanSat1.views
             currentUser = await authService.GetUserFromSessionAsync();
             loraService.DataReceived += LoraService_DataReceived;
 
-            lbUserLoggegIn.Text = $"Olá, {currentUser.Name}";
-            lbName.Text = currentUser.Name;
-            lbEmail.Text = currentUser.Email;
+            lbUserLoggegIn.Text = $"{currentUser.Name}";
 
             await UpdateDataGridViewAsync();
         }
@@ -110,23 +108,22 @@ namespace CanSat1.views
                 var sensors = JsonConvert.DeserializeObject<Sensor>(dataReceived);
                 sensorBuffer.Temperature = sensors.Temperature;
                 sensorBuffer.Humidity = sensors.Humidity;
-                sensorBuffer.Obstacle = sensors.Obstacle;
+                sensorBuffer.Gas = sensors.Gas;
 
                 _ = this.Invoke((MethodInvoker)async delegate
                 {
                     _Utils.updateSensorData(circleTemperature, sensors.Temperature);
                     _Utils.updateSensorData(circleHumidity, sensors.Humidity, false);
-                    _Utils.UpdateSinalizerPicture(gbSinalizador, sensors.Obstacle == "true" ? true : false);
-
+                    lbSensorGas.Text = sensors.Gas;
 
                     // actualiza os dados no bkynk usando o servico "blynkservice"
-                    await blynkService.UpdateVirtualPinAsync("v1", float.Parse(sensors.Temperature));
-                    await blynkService.UpdateVirtualPinAsync("v2", float.Parse(sensors.Humidity));
-                    await blynkService.UpdateVirtualPinAsync("v0", sensors.Obstacle == "true" ? 1025 : 0);
+                    await blynkService.UpdateVirtualPinAsync("v0", float.Parse(sensors.Temperature));
+                    await blynkService.UpdateVirtualPinAsync("v1", float.Parse(sensors.Humidity));
+                    await blynkService.UpdateVirtualPinAsync("v2", float.Parse(sensors.Gas));
                 });
             }
-        }
 
+        }
 
         // Valida o dado Json recebido; Ex; {"temperature":12,"humidity":72} e valido, {"temperature":12,"humidity",7} e invalido
         private bool IsValidJson(string str)
@@ -156,7 +153,7 @@ namespace CanSat1.views
 
                 if (loraService.Connect())
                 {
-                    _Utils.UpdateUIOnConnection(btnConnection, true, tabMain);
+                    _Utils.UpdateUIOnConnection(btnConnection, true, tabMain, picStatus);
                 }
                 else
                 {
@@ -166,7 +163,7 @@ namespace CanSat1.views
             else
             {
                 loraService.Disconnect(); // If is not connected keep sure the disconnection
-                _Utils.UpdateUIOnConnection(btnConnection, false, tabMain);
+                _Utils.UpdateUIOnConnection(btnConnection, false, tabMain, picStatus);
             }
         }
 

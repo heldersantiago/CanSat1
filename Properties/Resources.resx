@@ -127,4 +127,7 @@
   <data name="led_off_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\led_off_black.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="sat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

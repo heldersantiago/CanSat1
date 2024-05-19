@@ -11,18 +11,18 @@ namespace CanSat1.services
             this.databaseService = databaseService;
         }
 
-        public async Task StoreStatusAsync(string temperature, string humidity, string detected_object, DateTime updated_at)
+        public async Task StoreStatusAsync(string temperature, string humidity, string gas, DateTime updated_at)
         {
                 using var connection = await databaseService.OpenConnectionAsync();
             
                 if (connection == null) return;
 
                 // Insert new status modification in the database
-                using (MySqlCommand storeSessionCmd = new MySqlCommand("INSERT INTO states (temperatura,humidade,objecto_detectado, updated_at) VALUES (@Temperature, @Humidity,@DetectedObject,@UpdatedAt)", connection))
+                using (MySqlCommand storeSessionCmd = new MySqlCommand("INSERT INTO states (temperatura,humidade,gas, updated_at) VALUES (@Temperature, @Humidity,@Gas,@UpdatedAt)", connection))
                 {
                     storeSessionCmd.Parameters.AddWithValue("@Temperature", temperature);
                     storeSessionCmd.Parameters.AddWithValue("@Humidity", humidity);
-                    storeSessionCmd.Parameters.AddWithValue("@DetectedObject", detected_object);
+                    storeSessionCmd.Parameters.AddWithValue("@Gas", gas);
                     storeSessionCmd.Parameters.AddWithValue("@UpdatedAt", updated_at);
 
                     await storeSessionCmd.ExecuteNonQueryAsync();
@@ -52,10 +52,10 @@ namespace CanSat1.services
                     // Read user data from the reader
                     string temperatura = reader.GetString("temperatura") ?? null;
                     string humidade = reader.GetString("humidade") ?? null;
-                    string obstacle = reader.GetString("objecto_detectado");
+                    string gas = reader.GetString("gas");
                     DateTime updated_at = reader.GetDateTime("updated_at");
 
-                    Sensor _state = new Sensor { Temperature = temperatura, Humidity = humidade, Obstacle = obstacle, UpdatedAt = updated_at };
+                    Sensor _state = new Sensor { Temperature = temperatura, Humidity = humidade, Gas = gas, UpdatedAt = updated_at };
                     states.Add(_state);
                 }
             }
