@@ -1,6 +1,4 @@
 ﻿using CanSat1.interfaces;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace NexusUtils.BlynkIntegration
 {

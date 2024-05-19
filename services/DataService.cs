@@ -1,13 +1,5 @@
 ﻿using CanSat1.models;
 using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-using System.Xml.Linq;
-using CanSat1.services;
 
 namespace CanSat1.services
 {
@@ -52,11 +44,14 @@ namespace CanSat1.services
                 using MySqlCommand cmd = new MySqlCommand("SELECT * FROM states", connection);
 
                 using MySqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader == null) return null;
+
                 while (await reader.ReadAsync())
                 {
                     // Read user data from the reader
-                    string temperatura = reader.GetString("temperatura");
-                    string humidade = reader.GetString("humidade");
+                    string temperatura = reader.GetString("temperatura") ?? null;
+                    string humidade = reader.GetString("humidade") ?? null;
                     string obstacle = reader.GetString("objecto_detectado");
                     DateTime updated_at = reader.GetDateTime("updated_at");
 

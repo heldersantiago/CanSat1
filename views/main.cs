@@ -4,23 +4,13 @@ using CanSat1.Utils;
 using Guna.UI2.WinForms;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO.Ports;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using NexusUtils.BlynkIntegration;
 using CanSat1.services;
 using CanSat1.views.auth;
 using System.Timers;
 using Timer = System.Timers.Timer;
 using System.Diagnostics;
-using CanSat1.services;
 
 
 namespace CanSat1.views
@@ -33,7 +23,7 @@ namespace CanSat1.views
         private DataService dataService;
         private User currentUser;
         private Timer storeDataTimer;
-        private List<Sensor> sensorList;
+        private Sensor sensorBuffer;
 
         private readonly string token = "HRbOKqSm3nAoVR9iox2Pn3D8utIALof4";
 
@@ -47,14 +37,14 @@ namespace CanSat1.views
             cbPort.Items.AddRange(ports);
 
 
-            sensorList = new List<Sensor>();
+            sensorBuffer = new Sensor();
             InitializeStoreDataTimer();
         }
 
         private void InitializeStoreDataTimer()
         {
             storeDataTimer = new Timer();
-            storeDataTimer.Interval = 1000;
+            storeDataTimer.Interval = 5000;
             storeDataTimer.Elapsed += OnStoreDataTimerElapser;
             storeDataTimer.AutoReset = true;
             storeDataTimer.Enabled = true;
@@ -63,30 +53,25 @@ namespace CanSat1.views
         private async Task UpdateDataGridViewAsync()
         {
             // Get all users from the database and update the DataGridView
+            dataGridStates.ColumnHeadersVisible = true;
             dataGridStates.DataSource = await dataService.GetStatesAsync();
         }
 
         private void OnStoreDataTimerElapser(object? sender, ElapsedEventArgs e)
         {
-            if (sensorList.Any())
-            {
-                StoreSensorData(sensorList);
-                sensorList.Clear();
-            }
+             StoreSensorData(sensorBuffer);
         }
 
-        private async void StoreSensorData(List<Sensor> sensorList)
+        private async void StoreSensorData(Sensor sensorBuffer)
         {
-            if (IsValidJson(sensorList.ToString()))
+            if(!(string.IsNullOrEmpty(sensorBuffer.Temperature) && string.IsNullOrEmpty(sensorBuffer.Humidity) && string.IsNullOrEmpty(sensorBuffer.Obstacle)))
             {
-                Debug.WriteLine(sensorList);
-                foreach (var sensor in sensorList)
-                {
-                    // store the sensor values
-                    await dataService.StoreStatusAsync(sensor.Temperature, sensor.Humidity, sensor.Obstacle, DateTime.Now);
-                    //Debug.WriteLine($" temp: {sensor.Temperature}, hum {sensor.Humidity}, obj:{sensor.Obstacle} ");
-                }
+                await dataService.StoreStatusAsync(sensorBuffer.Temperature, sensorBuffer.Humidity, sensorBuffer.Obstacle, DateTime.Now);
             }
+            _ = this.Invoke((MethodInvoker)async delegate
+            {
+                await UpdateDataGridViewAsync();
+            });
         }
 
         private void main_Load(object sender, EventArgs e)
@@ -120,18 +105,18 @@ namespace CanSat1.views
 
         private void LoraService_DataReceived(string dataReceived)
         {
-            Debug.WriteLine(dataReceived);
             if (IsValidJson(dataReceived))
             {
                 var sensors = JsonConvert.DeserializeObject<Sensor>(dataReceived);
-                sensorList.Add(sensors);
+                sensorBuffer.Temperature = sensors.Temperature;
+                sensorBuffer.Humidity = sensors.Humidity;
+                sensorBuffer.Obstacle = sensors.Obstacle;
 
                 _ = this.Invoke((MethodInvoker)async delegate
                 {
                     _Utils.updateSensorData(circleTemperature, sensors.Temperature);
                     _Utils.updateSensorData(circleHumidity, sensors.Humidity, false);
                     _Utils.UpdateSinalizerPicture(gbSinalizador, sensors.Obstacle == "true" ? true : false);
-
 
 
                     // actualiza os dados no bkynk usando o servico "blynkservice"
@@ -141,7 +126,6 @@ namespace CanSat1.views
                 });
             }
         }
-
 
 
         // Valida o dado Json recebido; Ex; {"temperature":12,"humidity":72} e valido, {"temperature":12,"humidity",7} e invalido
@@ -165,7 +149,6 @@ namespace CanSat1.views
             {
                 if (string.IsNullOrEmpty(cbPort.Text)) { MessageDialog.Show("Selecione uma porta", MessageDialogStyle.Dark); return; }
                 if (string.IsNullOrEmpty(cbBaude.Text)) { MessageDialog.Show("Selecione um Baude Rate", MessageDialogStyle.Dark); return; }
-
 
 
                 loraService.Port = cbPort.Text;

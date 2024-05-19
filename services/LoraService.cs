@@ -1,5 +1,4 @@
 ﻿using CanSat1.interfaces;
-using System;
 using System.IO.Ports;
 
 namespace CanSat1.Services
