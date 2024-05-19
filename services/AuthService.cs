@@ -1,7 +1,5 @@
 ﻿using CanSat1.Utils;
-using CanSat1.Services;
 using MySql.Data.MySqlClient;
-using System.Threading.Tasks;
 using System.Data;
 using CanSat1.models;
 using CanSat1.interfaces;
