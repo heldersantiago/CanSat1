@@ -21,8 +21,15 @@ namespace NexusUtils.BlynkIntegration
         /// <returns></returns>
         public async Task UpdateVirtualPinAsync(string virtualPin, float value)
         {
-            using HttpClient httpClient = new();
-            await httpClient.GetAsync($"https://ny3.blynk.cloud/external/api/update?token={_token}&{virtualPin}={value}");
+            try
+            {
+                using HttpClient httpClient = new();
+                await httpClient.GetAsync($"https://ny3.blynk.cloud/external/api/update?token={_token}&{virtualPin}={value}");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         /// <summary>
