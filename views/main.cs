@@ -42,7 +42,6 @@ namespace CanSat1.views
             InitializeComponent();
             initializeServices();
 
-
             // On App Initialization load all available Serial Ports on PC, just on APP Initialization
             string[] ports = SerialPort.GetPortNames();
             cbPort.Items.AddRange(ports);
@@ -59,6 +58,12 @@ namespace CanSat1.views
             storeDataTimer.Elapsed += OnStoreDataTimerElapser;
             storeDataTimer.AutoReset = true;
             storeDataTimer.Enabled = true;
+        }
+
+        private async Task UpdateDataGridViewAsync()
+        {
+            // Get all users from the database and update the DataGridView
+            dataGridStates.DataSource = await dataService.GetStatesAsync();
         }
 
         private void OnStoreDataTimerElapser(object? sender, ElapsedEventArgs e)
@@ -110,6 +115,7 @@ namespace CanSat1.views
             lbName.Text = currentUser.Name;
             lbEmail.Text = currentUser.Email;
 
+            await UpdateDataGridViewAsync();
         }
 
         private void LoraService_DataReceived(string dataReceived)
@@ -186,7 +192,7 @@ namespace CanSat1.views
             _Utils.HandleBtnOnLoading(btnLogout, "Terminado a sessão...", false);
             if (loraService.IsConnected)
             {
-                 _Utils.HandleBtnOnLoading(btnLogout, "Terminar sessão", true);
+                _Utils.HandleBtnOnLoading(btnLogout, "Terminar sessão", true);
                 _Utils.ShowConnectionErrorMessage("Desconecta-se primeiro!");
                 return;
             }
@@ -194,6 +200,11 @@ namespace CanSat1.views
             Login _login = new();
             this.Hide();
             _login.Show();
+        }
+
+        private void guna2DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

@@ -36,5 +36,35 @@ namespace CanSat1.services
                     await storeSessionCmd.ExecuteNonQueryAsync();
                 }
         }
+
+        public async Task<List<Sensor>> GetStatesAsync()
+        {
+            List<Sensor> states = new List<Sensor>();
+
+            using (MySqlConnection connection = await databaseService.OpenConnectionAsync())
+            {
+                if (connection == null)
+                {
+                    // Failed to open a database connection
+                    return null; // or handle the error appropriately
+                }
+
+                using MySqlCommand cmd = new MySqlCommand("SELECT * FROM states", connection);
+
+                using MySqlDataReader reader = cmd.ExecuteReader();
+                while (await reader.ReadAsync())
+                {
+                    // Read user data from the reader
+                    string temperatura = reader.GetString("temperatura");
+                    string humidade = reader.GetString("humidade");
+                    string obstacle = reader.GetString("objecto_detectado");
+                    DateTime updated_at = reader.GetDateTime("updated_at");
+
+                    Sensor _state = new Sensor { Temperature = temperatura, Humidity = humidade, Obstacle = obstacle, UpdatedAt = updated_at };
+                    states.Add(_state);
+                }
+            }
+            return states;
+        }
     }
 }
